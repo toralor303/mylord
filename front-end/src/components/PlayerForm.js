@@ -13,10 +13,17 @@ const PlayerForm = (props) => {
   };
 
   return (
-    <div>
+    <form>
       <input id='playerName' type='text' placeholder="Player's name"></input>
-      <button onClick={(e) => addPlayer(e)}>Add</button>
-    </div>
+      <button
+        type='submit'
+        onClick={(e) => {
+          e.preventDefault();
+          addPlayer(e);
+        }}>
+        Add
+      </button>
+    </form>
   );
 };
 

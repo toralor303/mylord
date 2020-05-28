@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import PlayerForm from './components/PlayerForm';
-import PlayerList from './components/PlayerList';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
+import Home from './pages/Home';
+import Play from './pages/Play';
 
 const App = () => {
   const [players, setPlayers] = useState([]);
@@ -11,13 +13,17 @@ const App = () => {
 
   return (
     <div className='App'>
-      <PlayerForm players={players} setPlayers={setPlayers} />
-      <PlayerList players={players} deletePlayer={deletePlayer} />
-      {players.length > 1 ? (
-        <button onClick={() => console.log('test')}>Play !</button>
-      ) : (
-        <button disabled>Play !</button>
-      )}
+      <Router>
+        <Switch>
+          {/* Home/Setup page */}
+          <Route path='/' exact>
+            <Home players={players} setPlayers={setPlayers} deletePlayer={deletePlayer} />
+          </Route>
+          <Route path='/play' exact>
+            <Play players={players} />
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
 };
