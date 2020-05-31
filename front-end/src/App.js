@@ -20,7 +20,7 @@ const App = () => {
             <Home players={players} setPlayers={setPlayers} deletePlayer={deletePlayer} />
           </Route>
           <Route path='/play' exact>
-            <Play players={players} />
+            <Play />
           </Route>
         </Switch>
       </Router>
