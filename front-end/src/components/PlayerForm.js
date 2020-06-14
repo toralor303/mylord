@@ -5,7 +5,12 @@ const PlayerForm = (props) => {
   const addPlayer = (e) => {
     props.setPlayers([
       ...props.players,
-      { name: e.target.parentNode.children[0].value, uuid: uuid() },
+      {
+        name: e.target.parentNode.children[0].value,
+        index: uuid(),
+        isJoker: false,
+        isLord: false,
+      },
     ]);
 
     //Clear the input
@@ -13,7 +18,7 @@ const PlayerForm = (props) => {
   };
 
   return (
-    <form>
+    <form autoComplete='off'>
       <input id='playerName' type='text' placeholder="Player's name"></input>
       <button
         type='submit'

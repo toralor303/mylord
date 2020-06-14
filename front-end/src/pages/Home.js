@@ -5,7 +5,12 @@ import PlayerForm from '../components/PlayerForm';
 import PlayerList from '../components/PlayerList';
 
 const Home = ({ players, setPlayers, deletePlayer }) => {
+  let index = 0;
   const addPlayersToLocalStorage = () => {
+    players.forEach((p) => {
+      p.index = index++;
+    });
+    localStorage.clear();
     localStorage.setItem('players', JSON.stringify(players));
   };
 

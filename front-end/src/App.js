@@ -7,8 +7,8 @@ import Play from './pages/Play';
 const App = () => {
   const [players, setPlayers] = useState([]);
 
-  const deletePlayer = (uuid) => {
-    setPlayers(players.filter((player) => player.uuid !== uuid));
+  const deletePlayer = (i) => {
+    setPlayers(players.filter((player) => player.index !== i));
   };
 
   return (

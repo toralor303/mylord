@@ -1,90 +1,117 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 const Play = () => {
+  // Try to get all values from localStorage, with default values if nothing in localStorage
   const players = JSON.parse(localStorage.getItem('players'));
-  let currentPlayer = null;
-  const [joker, setJoker] = useState(null);
-  const [lords, setLords] = useState([]);
-  const [dice, setDice] = useState([
-    Math.floor(Math.random() * 6) + 1,
-    Math.floor(Math.random() * 6) + 1,
-  ]);
-  const [rule, setRule] = useState('');
+  const [currentPlayer, setCurrentPlayer] = useState(
+    JSON.parse(localStorage.getItem('currentPlayer'))
+  );
+  const [turnCounter, setTurnCounter] = useState(
+    localStorage.getItem('turnCounter') || 0
+  );
+  const [dice, setDice] = useState(JSON.parse(localStorage.getItem('dice')) || [1, 1]);
 
-  const nextTurn = () => {
-    // Setting next player
-    if (currentPlayer === null) currentPlayer = players[0];
-    console.log(players);
-    console.log(currentPlayer);
-    const nextPlayerIndex = players.map((p) => p.name).indexOf(currentPlayer.name) + 1;
-    if (nextPlayerIndex >= players.length) currentPlayer = players[0];
-    else currentPlayer = players[nextPlayerIndex];
+  let rules = JSON.parse(localStorage.getItem('rules')) || [];
 
-    // Getting new dice values
+  // console.log('---------\nRENDER\n---------');
+  // console.log('TURN COUNTER: ' + turnCounter);
+  // console.log('DICE VALUES: ' + dice[0] + ' and ' + dice[1]);
+  // console.log(`players: ${players.map((p) => JSON.stringify(p) + '\n\n')}`);
+  // console.log(`currentPlayer: ${JSON.stringify(currentPlayer)}`);
+
+  // const calculateRules = useCallback(() => {
+  //   const doubled = dice[0] === dice[1];
+  //   const added = dice[0] + dice[1];
+  //   const three = dice[0] === 3 || dice[1] === 3;
+
+  //   if (doubled) rules.push(`Choose someone to take ${dice[0]} sip(s).`);
+  //   if (added === 3) rules.push(`Choose a new joker.`);
+  //   if (added === 5)
+  //     rules.push(
+  //       `The last person to say MyLord with a hand on their heart has to take a sip.`
+  //     );
+  //   if (added === 7) rules.push(`Cheers! Everyone takes a sip!`);
+
+  //   localStorage.setItem('rules', JSON.stringify(rules));
+
+  //   console.log('Calculated the rules:');
+  //   console.log(JSON.stringify(rules));
+  // }, [dice, rules]);
+
+  useEffect(() => {
+    // Get the rules
+    if (dice === JSON.parse(localStorage.getItem('dice')));
+    {
+      // calculateRules();
+      rules = [];
+      const doubled = dice[0] === dice[1];
+      const added = dice[0] + dice[1];
+      const three = dice[0] === 3 || dice[1] === 3;
+
+      if (doubled) rules.push(`Choose someone to take ${dice[0]} sip(s).`);
+      if (added === 3) rules.push(`Choose a new joker.`);
+      if (added === 5)
+        rules.push(
+          `The last person to say MyLord with a hand on their heart has to take a sip.`
+        );
+      if (added === 7) rules.push(`Cheers! Everyone takes a sip!`);
+
+      localStorage.setItem('rules', JSON.stringify(rules));
+
+      console.log('Calculated the rules:');
+      console.log(JSON.stringify(rules));
+    }
+    return () => {
+      // Store dice values in localStorage
+      localStorage.setItem('dice', JSON.stringify(dice));
+      console.log('Stored dice values: ' + JSON.stringify(dice));
+    };
+  }, []);
+
+  const nextPlayer = () => {
+    // console.log('---------\nNEXTPLAYER()\n---------');
+    setTurnCounter(turnCounter + 1);
+    localStorage.setItem('turnCounter', turnCounter);
+
+    const next = players[currentPlayer.index + 1];
+    next ? setCurrentPlayer(next) : setCurrentPlayer(players[0]);
+    // Store currentPlayer in localStorage
+    localStorage.setItem('currentPlayer', JSON.stringify(currentPlayer));
+    // console.log('Stored the current player: ' + JSON.stringify(currentPlayer));
+  };
+
+  const rollTheDice = () => {
+    // console.log('---------\nROLLING THE DICE\n---------');
+    setTurnCounter(turnCounter + 1);
     setDice([Math.floor(Math.random() * 6) + 1, Math.floor(Math.random() * 6) + 1]);
-
-    setRule(calculateRules(dice[0], dice[1]).map((rule) => rule + '\n'));
   };
-
-  const calculateRules = (nb1, nb2) => {
-    const doubled = nb1 === nb2;
-    const added = nb1 + nb2;
-    const three = nb1 === 3 || nb2 === 3;
-    let newJoker;
-    let rules = [];
-
-    if (doubled) rules.push(`Choose someone to take ${nb1} sip(s).`);
-    if (added === 3) rules.push(`Choose a new joker.`);
-    if (added === 5)
-      rules.push(
-        `The last person to say MyLord with a hand on their heart has to take a sip.`
-      );
-    if (added === 7) rules.push(`Cheers! Everyone takes a sip!`);
-    if (three) {
-      if (joker === null) {
-        rules.push(`You are now the joker.`);
-        newJoker = currentPlayer;
-        console.log('joker now set (if)');
-      } else {
-        console.log('make the joker drink (else)');
-        rules.push(
-          doubled
-            ? `The joker (${joker.name}) has to take 2 sips`
-            : `The joker (${joker.name}) has to take 1 sip`
-        );
-      }
-    }
-    if (added === 12) {
-      // Lords
-      if (players.length - 1 > lords.length) {
-        rules.push('You are now lord. Make a new rule and demand respect.');
-        setLords(currentPlayer);
-      } else {
-        rules.push(
-          'Everyone looses their lord status. You can choose to keep the rules made up by the lords or not.'
-        );
-      }
-    }
-
-    if (newJoker) setJoker(newJoker);
-    return rules;
-  };
-
-  // console.log(calculateRules(6, 6));
 
   return (
     <>
       <h1>MyLord</h1>
-      <p>{currentPlayer ? `${currentPlayer.name}'s turn` : ''}</p>
-      <div className='dice'>
-        <img alt={dice[0]} src={`images/${dice[0]}.svg`}></img>
-        <img alt={dice[1]} src={`images/${dice[1]}.svg`}></img>
+      <h3>{currentPlayer ? currentPlayer.name : null}</h3>
+      <div>
+        <img alt={`Dice value (${dice[0]})`} src={`/images/${dice[0]}.svg`}></img>
+        <img alt={`Dice value (${dice[1]})`} src={`/images/${dice[1]}.svg`}></img>
       </div>
-      <p>{rule}</p>
-      <button onClick={() => nextTurn()}>Roll the dice</button>
-
-      <div className='modal'></div>
-      <div className='modal'></div>
+      <div>{turnCounter % 2 === 0 ? null : rules.map((r) => <div>{r}</div>)}</div>
+      {currentPlayer ? (
+        turnCounter % 2 === 0 ? (
+          <button onClick={() => rollTheDice()}>Roll the dice</button>
+        ) : (
+          <button onClick={() => nextPlayer()}>Next player</button>
+        )
+      ) : (
+        <button
+          onClick={() => {
+            localStorage.setItem('currentPlayer', JSON.stringify(players[0]));
+            setCurrentPlayer(players[0]);
+          }}>
+          Start playing
+        </button>
+      )}
+      <div>State dice values: {JSON.stringify(dice)}</div>
+      <div>localStorage dice values: {localStorage.getItem('dice')}</div>
     </>
   );
 };
