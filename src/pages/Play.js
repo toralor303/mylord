@@ -1,4 +1,5 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
+import Modal from '../components/Modal';
 
 const Play = () => {
   // Try to get all values from localStorage, with default values if nothing in localStorage
@@ -11,11 +12,13 @@ const Play = () => {
   );
   const [dice, setDice] = useState(JSON.parse(localStorage.getItem('dice')) || [1, 1]);
   const [joker, setJoker] = useState(JSON.parse(localStorage.getItem('joker')) || null);
+  const [lords, setLords] = useState(JSON.parse(localStorage.getItem('lords')) || []);
+
   const [calculateRules, setCalculateRules] = useState(false);
+  const [showJokerModal, setShowJokerModal] = useState(false);
+  const [showLordsModal, setShowLordsModal] = useState(false);
 
   let rules = JSON.parse(localStorage.getItem('rules')) || [];
-
-  const btnRef = useRef();
 
   // Compute the rules that apply
   if (dice !== JSON.parse(localStorage.getItem('dice')) && calculateRules) {
@@ -26,25 +29,26 @@ const Play = () => {
     const three = dice[0] === 3 || dice[1] === 3;
 
     if (doubled) rules.push(`Choose someone to take ${dice[0]} sip(s).`);
-    if (added === 3) rules.push(`Choose a new joker.`);
+    if (added === 3) {
+      rules.push(`Choose a new joker.`);
+      setShowJokerModal(true);
+      console.log(
+        `Opening joker modal. ${
+          joker ? `Joker before change: ${joker.name}` : `No joker`
+        }`
+      );
+    }
     if (added === 5)
       rules.push(
         `The last person to say MyLord with a hand on their heart has to take a sip.`
       );
     if (added === 7) rules.push(`Cheers! Everyone takes a sip!`);
     if (three) {
-      console.log('A 3 has been rolled');
       if (joker === null) {
-        console.log(`No joker yet, ${currentPlayer.name} is now the new joker.`);
         rules.push(`You are now the joker.`);
         setJoker(currentPlayer);
       } else {
-        console.log(
-          'Joker exists: ' + JSON.stringify(joker),
-          currentPlayer,
-          joker != currentPlayer,
-          joker !== currentPlayer
-        );
+        console.log(currentPlayer, joker);
         if (currentPlayer.index !== joker.index) {
           rules.push(
             doubled
@@ -52,13 +56,20 @@ const Play = () => {
               : `The joker (${joker.name}) has to take 1 sip`
           );
         } else {
-          console.log(
-            'CurrentPlayer is the joker, he gets out of it ' + currentPlayer.name
-          );
           rules.push('You are no longer the joker.');
           setJoker(null);
         }
       }
+    }
+    if (added === 12) {
+      // Choose a new lord to add to the list
+      if ((lords.length + 1) % players.length !== 0) setShowLordsModal(true);
+      // Reset lords list
+      else
+        rules.push(
+          'Maximum number of lords reached. Everyone loose their lord role. You can cancel any of the rules set by a lord.'
+        );
+      setLords([]);
     }
 
     setCalculateRules(false);
@@ -84,31 +95,66 @@ const Play = () => {
     setDice([Math.floor(Math.random() * 6) + 1, Math.floor(Math.random() * 6) + 1]);
   };
 
+  const chooseNewJoker = (idx) => {
+    setJoker(players.filter((p) => p.index === idx)[0]);
+    setShowJokerModal(false);
+  };
+
+  const chooseNewLord = (idx) => {
+    setLords([...lords, players.filter((p) => p.index === idx)]);
+    console.log(`Lords: ${JSON.stringify(lords)}`);
+    setShowLordsModal(false);
+  };
+
   return (
     <>
-      <h1>MyLord</h1>
-      <h3>{currentPlayer ? currentPlayer.name : null}</h3>
-      <div>
-        <img alt={`Dice value (${dice[0]})`} src={`/images/${dice[0]}.svg`}></img>
-        <img alt={`Dice value (${dice[1]})`} src={`/images/${dice[1]}.svg`}></img>
-      </div>
-      <div>{turnCounter % 2 === 0 ? null : rules.map((r) => <div key={r}>{r}</div>)}</div>
-      {currentPlayer ? (
-        turnCounter % 2 === 0 ? (
-          <button onClick={() => rollTheDice()}>Roll the dice</button>
-        ) : (
-          <button onClick={() => nextPlayer()}>Next player</button>
-        )
-      ) : (
-        <button
-          onClick={() => {
-            localStorage.setItem('currentPlayer', JSON.stringify(players[0]));
-            setCurrentPlayer(players[0]);
-          }}>
-          Start playing
-        </button>
-      )}
-      <div>{joker ? joker.name : ''}</div>
+      {!showJokerModal && !showLordsModal ? (
+        <>
+          <h1>MyLord</h1>
+          <h3>{currentPlayer ? currentPlayer.name : null}</h3>
+          <div>
+            <img alt={`Dice value (${dice[0]})`} src={`/images/${dice[0]}.svg`}></img>
+            <img alt={`Dice value (${dice[1]})`} src={`/images/${dice[1]}.svg`}></img>
+          </div>
+          <div>
+            {turnCounter % 2 === 0 ? null : rules.map((r) => <div key={r}>{r}</div>)}
+          </div>
+          {currentPlayer ? (
+            turnCounter % 2 === 0 ? (
+              <button onClick={() => rollTheDice()}>Roll the dice</button>
+            ) : (
+              <button onClick={() => nextPlayer()}>Next player</button>
+            )
+          ) : (
+            <button
+              onClick={() => {
+                localStorage.setItem('currentPlayer', JSON.stringify(players[0]));
+                setCurrentPlayer(players[0]);
+              }}>
+              Start playing
+            </button>
+          )}
+        </>
+      ) : null}
+
+      {showJokerModal ? (
+        <Modal
+          callback={() => chooseNewJoker()}
+          choices={players.filter((p) => {
+            return joker ? p.index !== joker.index : true;
+          })}
+        />
+      ) : null}
+      {showLordsModal
+        ? () => (
+            <Modal
+              callback={() => chooseNewLord()}
+              choices={players.filter((p) => {
+                return lords.map((l) => l.name).indexOf(p.name) === -1;
+              })}
+            />
+          )
+        : null}
     </>
   );
 };
