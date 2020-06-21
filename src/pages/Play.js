@@ -5,7 +5,7 @@ const Play = () => {
   // Try to get all values from localStorage, with default values if nothing in localStorage
   const players = JSON.parse(localStorage.getItem('players'));
   const [currentPlayer, setCurrentPlayer] = useState(
-    JSON.parse(localStorage.getItem('currentPlayer'))
+    JSON.parse(localStorage.getItem('currentPlayer') || null)
   );
   const [turnCounter, setTurnCounter] = useState(
     parseInt(localStorage.getItem('turnCounter')) || 0
@@ -32,11 +32,6 @@ const Play = () => {
     if (added === 3) {
       rules.push(`Choose a new joker.`);
       setShowJokerModal(true);
-      console.log(
-        `Opening joker modal. ${
-          joker ? `Joker before change: ${joker.name}` : `No joker`
-        }`
-      );
     }
     if (added === 5)
       rules.push(
@@ -48,8 +43,7 @@ const Play = () => {
         rules.push(`You are now the joker.`);
         setJoker(currentPlayer);
       } else {
-        console.log(currentPlayer, joker);
-        if (currentPlayer.index !== joker.index) {
+        if (currentPlayer ? currentPlayer.index !== joker.index : false) {
           rules.push(
             doubled
               ? `The joker (${joker.name}) has to take 2 sips`
@@ -65,11 +59,12 @@ const Play = () => {
       // Choose a new lord to add to the list
       if ((lords.length + 1) % players.length !== 0) setShowLordsModal(true);
       // Reset lords list
-      else
+      else {
         rules.push(
           'Maximum number of lords reached. Everyone loose their lord role. You can cancel any of the rules set by a lord.'
         );
-      setLords([]);
+        setLords([]);
+      }
     }
 
     setCalculateRules(false);
@@ -101,8 +96,7 @@ const Play = () => {
   };
 
   const chooseNewLord = (idx) => {
-    setLords([...lords, players.filter((p) => p.index === idx)]);
-    console.log(`Lords: ${JSON.stringify(lords)}`);
+    setLords([...lords, players.filter((p) => p.index === idx)[0]]);
     setShowLordsModal(false);
   };
 
@@ -136,25 +130,26 @@ const Play = () => {
           )}
         </>
       ) : null}
-
+      <br></br>
+      {`Joker: ${JSON.stringify(joker)}`}
+      <br></br>
+      {`Lords: ${JSON.stringify(lords)}`}
       {showJokerModal ? (
         <Modal
-          callback={() => chooseNewJoker()}
+          callback={(idx) => chooseNewJoker(idx)}
           choices={players.filter((p) => {
             return joker ? p.index !== joker.index : true;
           })}
         />
       ) : null}
-      {showLordsModal
-        ? () => (
-            <Modal
-              callback={() => chooseNewLord()}
-              choices={players.filter((p) => {
-                return lords.map((l) => l.name).indexOf(p.name) === -1;
-              })}
-            />
-          )
-        : null}
+      {showLordsModal ? (
+        <Modal
+          callback={(idx) => chooseNewLord(idx)}
+          choices={players.filter((p) => {
+            return lords.map((l) => l.name).indexOf(p.name) === -1;
+          })}
+        />
+      ) : null}
     </>
   );
 };

@@ -8,8 +8,6 @@ const PlayerForm = (props) => {
       {
         name: e.target.parentNode.children[0].value,
         index: uuid(),
-        isJoker: false,
-        isLord: false,
       },
     ]);
 

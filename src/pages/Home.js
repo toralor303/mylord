@@ -18,7 +18,7 @@ const Home = ({ players, setPlayers, deletePlayer }) => {
     <>
       <PlayerForm players={players} setPlayers={setPlayers} />
       <PlayerList players={players} deletePlayer={deletePlayer} />
-      {players.length > 1 ? (
+      {players.length > 2 ? (
         <Link to='/play' onClick={addPlayersToLocalStorage}>
           Play !
         </Link>
