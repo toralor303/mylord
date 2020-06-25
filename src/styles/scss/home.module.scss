@@ -1,0 +1,30 @@
+@use './constants';
+@use './master';
+
+@mixin btnPlay {
+  width: 40%;
+  font-size: 1.5em;
+
+  position: absolute;
+  bottom: 5%;
+
+  background-color: constants.$color-green;
+  border: solid black 1px;
+  border-radius: 5px;
+  text-decoration: none;
+  text-align: center;
+  color: black;
+}
+
+.btnPlay {
+  @include btnPlay;
+}
+
+.btnPlayDisabled {
+  @include btnPlay;
+  background-color: constants.$color-grey;
+
+  &:hover {
+    cursor: not-allowed;
+  }
+}

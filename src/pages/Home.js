@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import PlayerForm from '../components/PlayerForm';
 import PlayerList from '../components/PlayerList';
 
+import styles from '../styles/css/home.module.css';
+
 const Home = ({ players, setPlayers, deletePlayer }) => {
   let index = 0;
   const addPlayersToLocalStorage = () => {
@@ -15,17 +17,20 @@ const Home = ({ players, setPlayers, deletePlayer }) => {
   };
 
   return (
-    <>
+    <div className={styles.page}>
+      <h1 className={styles.title}>MyLord</h1>
       <PlayerForm players={players} setPlayers={setPlayers} />
       <PlayerList players={players} deletePlayer={deletePlayer} />
       {players.length > 2 ? (
-        <Link to='/play' onClick={addPlayersToLocalStorage}>
+        <Link to='/play' onClick={addPlayersToLocalStorage} className={styles.btnPlay}>
           Play !
         </Link>
       ) : (
-        <button disabled>Play !</button>
+        <button disabled className={styles.btnPlayDisabled}>
+          Play !
+        </button>
       )}
-    </>
+    </div>
   );
 };
 

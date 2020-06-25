@@ -1,0 +1,54 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-size: 1rem;
+  font-family: "Open Sans", sans-serif;
+}
+
+.page {
+  width: 80%;
+  height: 100vh;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  font-family: "Roboto Slab", serif;
+  font-size: 4em;
+  margin: 0.5em auto;
+}
+
+.btnPlay {
+  width: 40%;
+  font-size: 1.5em;
+  position: absolute;
+  bottom: 5%;
+  background-color: #03b103;
+  border: solid black 1px;
+  border-radius: 5px;
+  text-decoration: none;
+  text-align: center;
+  color: black;
+}
+
+.btnPlayDisabled {
+  width: 40%;
+  font-size: 1.5em;
+  position: absolute;
+  bottom: 5%;
+  background-color: #03b103;
+  border: solid black 1px;
+  border-radius: 5px;
+  text-decoration: none;
+  text-align: center;
+  color: black;
+  background-color: grey;
+}
+.btnPlayDisabled:hover {
+  cursor: not-allowed;
+}
+
+/*# sourceMappingURL=home.module.css.map */
