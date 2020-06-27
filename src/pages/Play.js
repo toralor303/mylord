@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Modal from '../components/Modal';
+import styles from '../styles/css/play.module.css';
 
 const Play = () => {
   // Try to get all values from localStorage, with default values if nothing in localStorage
@@ -29,10 +30,6 @@ const Play = () => {
     const three = dice[0] === 3 || dice[1] === 3;
 
     if (doubled) rules.push(`Choose someone to take ${dice[0]} sip(s).`);
-    if (added === 3) {
-      rules.push(`Choose a new joker.`);
-      setShowJokerModal(true);
-    }
     if (added === 5)
       rules.push(
         `The last person to say MyLord with a hand on their heart has to take a sip.`
@@ -55,9 +52,15 @@ const Play = () => {
         }
       }
     }
+    if (added === 3) {
+      rules.push(`Choose a new joker:`);
+      setShowJokerModal(true);
+    }
     if (added === 12) {
       // Choose a new lord to add to the list
-      if ((lords.length + 1) % players.length !== 0) setShowLordsModal(true);
+      if ((lords.length + 1) % players.length !== 0) {
+        setShowLordsModal(true);
+      }
       // Reset lords list
       else {
         rules.push(
@@ -75,13 +78,15 @@ const Play = () => {
   }
 
   const nextPlayer = () => {
-    setTurnCounter(turnCounter + 1);
-    localStorage.setItem('turnCounter', turnCounter);
+    if (!showJokerModal && !showLordsModal) {
+      setTurnCounter(turnCounter + 1);
+      localStorage.setItem('turnCounter', turnCounter);
 
-    const next = players[currentPlayer.index + 1];
-    next ? setCurrentPlayer(next) : setCurrentPlayer(players[0]);
-    // Store currentPlayer in localStorage
-    localStorage.setItem('currentPlayer', JSON.stringify(currentPlayer));
+      const next = players[currentPlayer.index + 1];
+      next ? setCurrentPlayer(next) : setCurrentPlayer(players[0]);
+      // Store currentPlayer in localStorage
+      localStorage.setItem('currentPlayer', JSON.stringify(currentPlayer));
+    }
   };
 
   const rollTheDice = () => {
@@ -100,57 +105,79 @@ const Play = () => {
     setShowLordsModal(false);
   };
 
-  return (
-    <>
-      {!showJokerModal && !showLordsModal ? (
-        <>
-          <h1>MyLord</h1>
-          <h3>{currentPlayer ? currentPlayer.name : null}</h3>
-          <div>
-            <img alt={`Dice value (${dice[0]})`} src={`/images/${dice[0]}.svg`}></img>
-            <img alt={`Dice value (${dice[1]})`} src={`/images/${dice[1]}.svg`}></img>
-          </div>
-          <div>
-            {turnCounter % 2 === 0 ? null : rules.map((r) => <div key={r}>{r}</div>)}
-          </div>
-          {currentPlayer ? (
-            turnCounter % 2 === 0 ? (
-              <button onClick={() => rollTheDice()}>Roll the dice</button>
-            ) : (
-              <button onClick={() => nextPlayer()}>Next player</button>
-            )
-          ) : (
-            <button
-              onClick={() => {
-                localStorage.setItem('currentPlayer', JSON.stringify(players[0]));
-                setCurrentPlayer(players[0]);
-              }}>
-              Start playing
-            </button>
-          )}
-        </>
-      ) : null}
-      <br></br>
-      {`Joker: ${JSON.stringify(joker)}`}
-      <br></br>
-      {`Lords: ${JSON.stringify(lords)}`}
-      {showJokerModal ? (
+  const modals = () => {
+    if (showJokerModal) {
+      return (
         <Modal
+          role='joker'
           callback={(idx) => chooseNewJoker(idx)}
           choices={players.filter((p) => {
             return joker ? p.index !== joker.index : true;
           })}
         />
-      ) : null}
-      {showLordsModal ? (
+      );
+    }
+
+    if (showLordsModal) {
+      return (
         <Modal
+          role='lord'
           callback={(idx) => chooseNewLord(idx)}
           choices={players.filter((p) => {
             return lords.map((l) => l.name).indexOf(p.name) === -1;
           })}
         />
-      ) : null}
-    </>
+      );
+    }
+  };
+
+  return (
+    <div className={styles.page}>
+      <>
+        <h1 className={styles.title}>MyLord</h1>
+        <h3 className={styles.playerName}>
+          {currentPlayer ? currentPlayer.name + "'s turn" : null}
+        </h3>
+        <div className={styles.dices}>
+          <img
+            alt={`Dice value (${dice[0]})`}
+            src={`/images/${dice[0]}.svg`}
+            className={styles.dice1}></img>
+          <img
+            alt={`Dice value (${dice[1]})`}
+            src={`/images/${dice[1]}.svg`}
+            className={styles.dice2}></img>
+        </div>
+        <div className={styles.rules}>
+          {turnCounter % 2 === 0 ? null : rules.map((r) => <div key={r}>{r}</div>)}
+        </div>
+        {modals()}
+        {currentPlayer ? (
+          turnCounter % 2 === 0 ? (
+            <button onClick={() => rollTheDice()} className={styles.btnRoll}>
+              Roll the dice
+            </button>
+          ) : (
+            <button onClick={() => nextPlayer()} className={styles.btnNext}>
+              Next player
+            </button>
+          )
+        ) : (
+          <button
+            onClick={() => {
+              localStorage.setItem('currentPlayer', JSON.stringify(players[0]));
+              setCurrentPlayer(players[0]);
+            }}
+            className={styles.btnStart}>
+            Start playing
+          </button>
+        )}
+      </>
+      {/* <br></br>
+      {`Joker: ${JSON.stringify(joker)}`}
+      <br></br>
+      {`Lords: ${JSON.stringify(lords)}`} */}
+    </div>
   );
 };
 

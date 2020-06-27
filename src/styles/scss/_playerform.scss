@@ -1,0 +1,50 @@
+@use './constants';
+
+.playerform {
+  display: grid;
+  grid-template-columns: 80% 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas:
+    'label  .'
+    'input  btn'
+  ;
+}
+
+label {
+  grid-area: label;
+  color: constants.$color-grey;
+}
+
+input {
+  grid-area: input;
+  border: none;
+  border-radius: 5px;
+  background-color: constants.$color-lightblue;
+  color: white;
+  caret-color: white;
+
+  &:focus {
+    outline-width: 0;
+  }
+}
+
+.btnAdd {
+  grid-area: btn;
+  margin-left: 15px;
+  background-color: constants.$color-blue;
+  border: solid 2px constants.$color-darkwhite;
+  border-radius: 10px;
+  color: constants.$color-darkwhite;
+  padding: 0.1em;
+}
+
+.btnAddDeactivated {
+  grid-area: btn;
+  margin-left: 15px;
+  background-color: constants.$color-blue;
+  border: solid 2px constants.$color-darkwhite;
+  border-radius: 10px;
+  color: constants.$color-darkwhite;
+  padding: 0.1em;
+  background-color: constants.$color-grey;
+}

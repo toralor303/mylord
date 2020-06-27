@@ -1,12 +1,20 @@
 @use './constants';
 @use './master';
+@use './playerform';
+@use './playerlist';
+
+.playerform {
+  margin: 1em auto;
+  width: 80%;
+}
 
 @mixin btnPlay {
-  width: 40%;
+  padding: 0.2em 0.55em;
   font-size: 1.5em;
+  font-family: 'Roboto Slab', serif;
 
-  position: absolute;
-  bottom: 5%;
+  margin-bottom: 2em;
+  margin-top: auto;
 
   background-color: constants.$color-green;
   border: solid black 1px;

@@ -1,2 +1,7 @@
 $color-green: rgb(3, 177, 3);
 $color-grey: grey;
+$color-blue: rgb(4, 37, 80);
+$color-lightblue: lighten($color-blue, 5%);
+$color-darkblue: darken($color-blue, 5%);
+$color-darkwhite: rgb(180, 180, 180);
+$color-red: rgb(167, 0, 0);

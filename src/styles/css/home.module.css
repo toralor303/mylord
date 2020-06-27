@@ -4,6 +4,11 @@
   box-sizing: border-box;
   font-size: 1rem;
   font-family: "Open Sans", sans-serif;
+  outline-width: 0;
+}
+
+body {
+  background-color: #042550;
 }
 
 .page {
@@ -19,13 +24,124 @@
   font-family: "Roboto Slab", serif;
   font-size: 4em;
   margin: 0.5em auto;
+  color: white;
+  margin: 1em auto;
+}
+
+.playerform {
+  display: grid;
+  grid-template-columns: 80% 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas: "label  ." "input  btn";
+}
+
+label {
+  grid-area: label;
+  color: grey;
+}
+
+input {
+  grid-area: input;
+  border: none;
+  border-radius: 5px;
+  background-color: #053068;
+  color: white;
+  caret-color: white;
+}
+input:focus {
+  outline-width: 0;
+}
+
+.btnAdd {
+  grid-area: btn;
+  margin-left: 15px;
+  background-color: #042550;
+  border: solid 2px #b4b4b4;
+  border-radius: 10px;
+  color: #b4b4b4;
+  padding: 0.1em;
+}
+
+.btnAddDeactivated {
+  grid-area: btn;
+  margin-left: 15px;
+  background-color: #042550;
+  border: solid 2px #b4b4b4;
+  border-radius: 10px;
+  color: #b4b4b4;
+  padding: 0.1em;
+  background-color: grey;
+}
+
+@keyframes comeUp {
+  from {
+    bottom: -1000px;
+  }
+  to {
+    bottom: 0;
+  }
+}
+@keyframes deleteItem {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+.container {
+  width: 80%;
+  text-align: center;
+}
+
+.playercounter {
+  color: #b4b4b4;
+}
+
+ul {
+  list-style: none;
+  width: 100%;
+}
+
+li {
+  position: relative;
+  background-color: #053068;
+  color: white;
+  width: 100%;
+  margin: 0.5em auto 0.5em 0;
+  padding: 0.5em 2em;
+  text-align: left;
+  border-radius: 5px;
+  animation: comeUp 1.2s ease-out;
+}
+
+.btnDel {
+  border: none;
+  border-radius: 5px;
+  width: 1.5em;
+  height: 1.5em;
+  background-color: #a70000;
+  color: white;
+  font-family: "Nunito", sans-serif;
+  position: absolute;
+  right: 10px;
+}
+
+.deletedItem {
+  animation: deleteItem 1s ease-in;
+}
+
+.playerform {
+  margin: 1em auto;
+  width: 80%;
 }
 
 .btnPlay {
-  width: 40%;
+  padding: 0.2em 0.55em;
   font-size: 1.5em;
-  position: absolute;
-  bottom: 5%;
+  font-family: "Roboto Slab", serif;
+  margin-bottom: 2em;
+  margin-top: auto;
   background-color: #03b103;
   border: solid black 1px;
   border-radius: 5px;
@@ -35,10 +151,11 @@
 }
 
 .btnPlayDisabled {
-  width: 40%;
+  padding: 0.2em 0.55em;
   font-size: 1.5em;
-  position: absolute;
-  bottom: 5%;
+  font-family: "Roboto Slab", serif;
+  margin-bottom: 2em;
+  margin-top: auto;
   background-color: #03b103;
   border: solid black 1px;
   border-radius: 5px;

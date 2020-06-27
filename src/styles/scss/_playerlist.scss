@@ -1,0 +1,63 @@
+@use './constants';
+
+@keyframes comeUp {
+  from {
+    bottom: -1000px;
+  }
+
+  to {
+    bottom: 0;
+  }
+}
+
+@keyframes deleteItem {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+.container {
+  width: 80%;
+  text-align: center;
+}
+
+.playercounter {
+  color: constants.$color-darkwhite;
+}
+
+ul {
+  list-style: none;
+  width: 100%;
+}
+
+li {
+  position: relative;
+  background-color: constants.$color-lightblue;
+  color: white;
+  width: 100%;
+  margin: 0.5em auto 0.5em 0;
+  padding: 0.5em 2em;
+  text-align: left;
+  border-radius: 5px;
+  animation: comeUp 1.2s ease-out;
+}
+
+.btnDel {
+  border: none;
+  border-radius: 5px;
+  width: 1.5em;
+  height: 1.5em;
+  background-color: constants.$color-red;
+  color: white;
+  font-family: 'Nunito', sans-serif;
+  position: absolute;
+  right: 10px;
+}
+
+.deletedItem {
+  animation: deleteItem 1s ease-in;
+}

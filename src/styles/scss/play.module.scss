@@ -1,0 +1,63 @@
+@use './constants';
+@use './master';
+
+.title {}
+
+.playerName {
+  color: white;
+  font-size: 1.2em;
+  min-height: 1.5em;
+}
+
+.dices {
+  margin-top: 2em;
+  display: flex;
+  justify-content: space-between;
+}
+
+.dice1 {
+  width: 45%;
+}
+
+.dice2 {
+  width: 45%;
+}
+
+.rules {
+  min-height: 100px;
+  color: white;
+  margin-top: 2em;
+}
+
+@mixin btn {
+  font-family: 'Roboto Slab', serif;
+  font-size: 1.5em;
+  padding: 0.5em 1em;
+  color: white;
+  background-color: constants.$color-darkblue;
+  border: none;
+  border-radius: 15px;
+  margin-bottom: 2em;
+  margin-top: auto;
+}
+
+.btnRoll {
+  @include btn;
+}
+
+.btnNext {
+  @include btn;
+}
+
+.btnStart {
+  @include btn;
+}
+
+.modal {
+  margin-bottom: 2em;
+  width: 60%;
+
+  .label {
+    text-align: center;
+  }
+}
