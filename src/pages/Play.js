@@ -45,8 +45,7 @@ const Play = () => {
     dice !== JSON.parse(localStorage.getItem('dice')) &&
     calculateRules
   ) {
-    // calculateRules();
-    let rules = [];
+    rules = [];
     const doubled = dice[0] === dice[1];
     const added = dice[0] + dice[1];
     const three = dice[0] === 3 || dice[1] === 3;
@@ -108,7 +107,9 @@ const Play = () => {
       const next = players[currentPlayer.index + 1];
       next ? setCurrentPlayer(next) : setCurrentPlayer(players[0]);
 
-      saveTurnToLocalStorage();
+      // In this case, we need to save the turn without the method because the state doesn't have time to update
+      localStorage.setItem('currentPlayer', JSON.stringify(next ? next : players[0]));
+      localStorage.setItem('turnCounter', JSON.stringify(turnCounter + 1));
     }
   };
 
@@ -179,7 +180,8 @@ const Play = () => {
         <div className={styles.rules}>
           {turnCounter % 2 === 0
             ? null
-            : rules.map((r) => <div key={r}>{r}</div>)}
+            : rules.map((r) => <div key={r}>{r}</div>)
+          }
         </div>
         {modals()}
         {currentPlayer ? (
@@ -209,10 +211,6 @@ const Play = () => {
             Start playing
           </button>
         )}
-      {/* <br></br>
-      {`Joker: ${JSON.stringify(joker)}`}
-      <br></br>
-      {`Lords: ${JSON.stringify(lords)}`} */}
     </div>
   );
 };
