@@ -32,10 +32,10 @@ input {
   grid-area: btn;
   margin-left: 15px;
   background-color: constants.$color-blue;
-  border: solid 2px constants.$color-darkwhite;
+  border: solid 1px white;
   border-radius: 10px;
   color: constants.$color-darkwhite;
-  padding: 0.1em;
+  padding: 0.2em 0.4em;
 }
 
 .btnAddDeactivated {

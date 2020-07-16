@@ -1,8 +1,6 @@
 @use './constants';
 @use './master';
 
-.title {}
-
 .playerName {
   color: white;
   font-size: 1.2em;
@@ -35,7 +33,7 @@
   padding: 0.5em 1em;
   color: white;
   background-color: constants.$color-darkblue;
-  border: none;
+  border: 1px solid white;
   border-radius: 15px;
   margin-bottom: 2em;
   margin-top: auto;

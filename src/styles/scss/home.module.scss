@@ -9,7 +9,7 @@
 }
 
 @mixin btnPlay {
-  padding: 0.2em 0.55em;
+  padding: 0.2em 0.5em;
   font-size: 1.5em;
   font-family: 'Roboto Slab', serif;
 
@@ -17,11 +17,11 @@
   margin-top: auto;
 
   background-color: constants.$color-green;
-  border: solid black 1px;
+  border: solid white 1px;
   border-radius: 5px;
   text-decoration: none;
   text-align: center;
-  color: black;
+  color: white;
 }
 
 .btnPlay {

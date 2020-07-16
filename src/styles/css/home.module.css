@@ -56,10 +56,10 @@ input:focus {
   grid-area: btn;
   margin-left: 15px;
   background-color: #042550;
-  border: solid 2px #b4b4b4;
+  border: solid 1px white;
   border-radius: 10px;
   color: #b4b4b4;
-  padding: 0.1em;
+  padding: 0.2em 0.4em;
 }
 
 .btnAddDeactivated {
@@ -137,31 +137,31 @@ li {
 }
 
 .btnPlay {
-  padding: 0.2em 0.55em;
+  padding: 0.2em 0.5em;
   font-size: 1.5em;
   font-family: "Roboto Slab", serif;
   margin-bottom: 2em;
   margin-top: auto;
-  background-color: #03b103;
-  border: solid black 1px;
+  background-color: #43970b;
+  border: solid white 1px;
   border-radius: 5px;
   text-decoration: none;
   text-align: center;
-  color: black;
+  color: white;
 }
 
 .btnPlayDisabled {
-  padding: 0.2em 0.55em;
+  padding: 0.2em 0.5em;
   font-size: 1.5em;
   font-family: "Roboto Slab", serif;
   margin-bottom: 2em;
   margin-top: auto;
-  background-color: #03b103;
-  border: solid black 1px;
+  background-color: #43970b;
+  border: solid white 1px;
   border-radius: 5px;
   text-decoration: none;
   text-align: center;
-  color: black;
+  color: white;
   background-color: grey;
 }
 .btnPlayDisabled:hover {

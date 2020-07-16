@@ -60,7 +60,7 @@ body {
   padding: 0.5em 1em;
   color: white;
   background-color: #031a38;
-  border: none;
+  border: 1px solid white;
   border-radius: 15px;
   margin-bottom: 2em;
   margin-top: auto;
@@ -72,7 +72,7 @@ body {
   padding: 0.5em 1em;
   color: white;
   background-color: #031a38;
-  border: none;
+  border: 1px solid white;
   border-radius: 15px;
   margin-bottom: 2em;
   margin-top: auto;
@@ -84,7 +84,7 @@ body {
   padding: 0.5em 1em;
   color: white;
   background-color: #031a38;
-  border: none;
+  border: 1px solid white;
   border-radius: 15px;
   margin-bottom: 2em;
   margin-top: auto;
