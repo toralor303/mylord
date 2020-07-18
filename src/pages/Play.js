@@ -21,24 +21,42 @@ const Play = () => {
     JSON.parse(localStorage.getItem('lords')) || []
   );
 
-  const [calculateRules, setCalculateRules] = useState(JSON.parse(localStorage.getItem('calculateRules')));
-  const [showJokerModal, setShowJokerModal] = useState(JSON.parse(localStorage.getItem('setShowJokerModal')));
-  const [showLordsModal, setShowLordsModal] = useState(JSON.parse(localStorage.getItem('setShowLordsModal')));
+  const [calculateRules, setCalculateRules] = useState(
+    JSON.parse(localStorage.getItem('calculateRules'))
+  );
+  const [showJokerModal, setShowJokerModal] = useState(
+    JSON.parse(localStorage.getItem('setShowJokerModal'))
+  );
+  const [showLordsModal, setShowLordsModal] = useState(
+    JSON.parse(localStorage.getItem('setShowLordsModal'))
+  );
 
   let rules = JSON.parse(localStorage.getItem('rules')) || [];
 
   const saveTurnToLocalStorage = () => {
     localStorage.setItem('players', JSON.stringify(players)); // Useless since they never change. Added this line in case of future features
-    localStorage.setItem('currentPlayer', JSON.stringify(currentPlayer));
+    localStorage.setItem(
+      'currentPlayer',
+      JSON.stringify(currentPlayer)
+    );
     localStorage.setItem('turnCounter', JSON.stringify(turnCounter));
     localStorage.setItem('dice', JSON.stringify(dice));
     localStorage.setItem('joker', JSON.stringify(joker));
     localStorage.setItem('lords', JSON.stringify(lords));
-    localStorage.setItem('calculateRules', JSON.stringify(calculateRules));
-    localStorage.setItem('showJokerModal', JSON.stringify(showJokerModal));
-    localStorage.setItem('showLordsModal', JSON.stringify(showLordsModal));
+    localStorage.setItem(
+      'calculateRules',
+      JSON.stringify(calculateRules)
+    );
+    localStorage.setItem(
+      'showJokerModal',
+      JSON.stringify(showJokerModal)
+    );
+    localStorage.setItem(
+      'showLordsModal',
+      JSON.stringify(showLordsModal)
+    );
     localStorage.setItem('rules', JSON.stringify(rules));
-  }
+  };
 
   // Compute the rules that apply
   if (
@@ -83,9 +101,9 @@ const Play = () => {
       setShowJokerModal(true);
     }
     if (added === 12) {
-      // Choose a new lord to add to the list
       if ((lords.length + 1) % players.length !== 0) {
         setShowLordsModal(true);
+        rules.push('The player drinking those will become lord.');
       }
       // Reset lords list
       else {
@@ -108,8 +126,14 @@ const Play = () => {
       next ? setCurrentPlayer(next) : setCurrentPlayer(players[0]);
 
       // In this case, we need to save the turn without the method because the state doesn't have time to update
-      localStorage.setItem('currentPlayer', JSON.stringify(next ? next : players[0]));
-      localStorage.setItem('turnCounter', JSON.stringify(turnCounter + 1));
+      localStorage.setItem(
+        'currentPlayer',
+        JSON.stringify(next ? next : players[0])
+      );
+      localStorage.setItem(
+        'turnCounter',
+        JSON.stringify(turnCounter + 1)
+      );
     }
   };
 
@@ -163,54 +187,53 @@ const Play = () => {
 
   return (
     <div className={styles.page}>
-        <h1 className={styles.title}>MyLord</h1>
-        <h3 className={styles.playerName}>
-          {currentPlayer ? currentPlayer.name + "'s turn" : null}
-        </h3>
-        <div className={styles.dices}>
-          <img
-            alt={`Dice value (${dice[0]})`}
-            src={`/images/${dice[0]}.svg`}
-            className={styles.dice1}></img>
-          <img
-            alt={`Dice value (${dice[1]})`}
-            src={`/images/${dice[1]}.svg`}
-            className={styles.dice2}></img>
-        </div>
-        <div className={styles.rules}>
-          {turnCounter % 2 === 0
-            ? null
-            : rules.map((r) => <div key={r}>{r}</div>)
-          }
-        </div>
-        {modals()}
-        {currentPlayer ? (
-          turnCounter % 2 === 0 ? (
-            <button
-              onClick={() => rollTheDice()}
-              className={styles.btnRoll}>
-              Roll the dice
-            </button>
-          ) : (
-            <button
-              onClick={() => nextPlayer()}
-              className={styles.btnNext}>
-              Next player
-            </button>
-          )
+      <h1 className={styles.title}>MyLord</h1>
+      <h3 className={styles.playerName}>
+        {currentPlayer ? currentPlayer.name + "'s turn" : null}
+      </h3>
+      <div className={styles.dices}>
+        <img
+          alt={`Dice value (${dice[0]})`}
+          src={`/images/${dice[0]}.svg`}
+          className={styles.dice1}></img>
+        <img
+          alt={`Dice value (${dice[1]})`}
+          src={`/images/${dice[1]}.svg`}
+          className={styles.dice2}></img>
+      </div>
+      <div className={styles.rules}>
+        {turnCounter % 2 === 0
+          ? null
+          : rules.map((r) => <div key={r}>{r}</div>)}
+      </div>
+      {modals()}
+      {currentPlayer ? (
+        turnCounter % 2 === 0 ? (
+          <button
+            onClick={() => rollTheDice()}
+            className={styles.btnRoll}>
+            Roll the dice
+          </button>
         ) : (
           <button
-            onClick={() => {
-              localStorage.setItem(
-                'currentPlayer',
-                JSON.stringify(players[0])
-              );
-              setCurrentPlayer(players[0]);
-            }}
-            className={styles.btnStart}>
-            Start playing
+            onClick={() => nextPlayer()}
+            className={styles.btnNext}>
+            Next player
           </button>
-        )}
+        )
+      ) : (
+        <button
+          onClick={() => {
+            localStorage.setItem(
+              'currentPlayer',
+              JSON.stringify(players[0])
+            );
+            setCurrentPlayer(players[0]);
+          }}
+          className={styles.btnStart}>
+          Start playing
+        </button>
+      )}
     </div>
   );
 };
