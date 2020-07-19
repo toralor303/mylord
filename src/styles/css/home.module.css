@@ -168,4 +168,10 @@ li {
   cursor: not-allowed;
 }
 
+@media (min-width: 600px) {
+  .page {
+    max-width: 400px;
+  }
+}
+
 /*# sourceMappingURL=home.module.css.map */
