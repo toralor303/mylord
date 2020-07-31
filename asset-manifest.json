@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/mylord/static/css/main.f8ab94b4.chunk.css",
+    "main.js": "/mylord/static/js/main.0122c293.chunk.js",
+    "main.js.map": "/mylord/static/js/main.0122c293.chunk.js.map",
+    "runtime-main.js": "/mylord/static/js/runtime-main.e81e822a.js",
+    "runtime-main.js.map": "/mylord/static/js/runtime-main.e81e822a.js.map",
+    "static/js/2.47d9373f.chunk.js": "/mylord/static/js/2.47d9373f.chunk.js",
+    "static/js/2.47d9373f.chunk.js.map": "/mylord/static/js/2.47d9373f.chunk.js.map",
+    "index.html": "/mylord/index.html",
+    "precache-manifest.6d1644a2365132a7d1d6dace8cc84c6b.js": "/mylord/precache-manifest.6d1644a2365132a7d1d6dace8cc84c6b.js",
+    "service-worker.js": "/mylord/service-worker.js",
+    "static/css/main.f8ab94b4.chunk.css.map": "/mylord/static/css/main.f8ab94b4.chunk.css.map",
+    "static/js/2.47d9373f.chunk.js.LICENSE.txt": "/mylord/static/js/2.47d9373f.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.e81e822a.js",
+    "static/js/2.47d9373f.chunk.js",
+    "static/css/main.f8ab94b4.chunk.css",
+    "static/js/main.0122c293.chunk.js"
+  ]
+}
