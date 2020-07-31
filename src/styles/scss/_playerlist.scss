@@ -1,12 +1,12 @@
 @use './constants';
 
-@keyframes comeUp {
+@keyframes appear {
   from {
-    bottom: -1000px;
+    right: 1000px;
   }
 
   to {
-    bottom: 0;
+    right: 0;
   }
 }
 
@@ -21,7 +21,8 @@
 }
 
 .container {
-  width: 80%;
+  width: 100%;
+  margin-top: 1em;
   text-align: center;
 }
 
@@ -43,7 +44,7 @@ li {
   padding: 0.5em 2em;
   text-align: left;
   border-radius: 5px;
-  animation: comeUp 1.2s ease-out;
+  animation: appear 1.2s ease-out;
 }
 
 .btnDel {

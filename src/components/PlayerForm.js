@@ -5,7 +5,10 @@ import styles from '../styles/css/home.module.css';
 
 const PlayerForm = (props) => {
   const addPlayer = (e) => {
-    if (e.target.parentNode.children[1].value !== '' && props.players.length < 8) {
+    if (
+      e.target.parentNode.children[1].value !== '' &&
+      props.players.length < 8
+    ) {
       props.setPlayers([
         ...props.players,
         {
@@ -24,13 +27,17 @@ const PlayerForm = (props) => {
       <label>Player's name</label>
       <input id='playerName' type='text' maxLength='25'></input>
       <button
-        className={props.players.length < 8 ? styles.btnAdd : styles.btnAddDeactivated}
+        className={
+          props.players.length < 8
+            ? styles.btnAdd
+            : styles.btnAddDeactivated
+        }
         type='submit'
         onClick={(e) => {
           e.preventDefault();
           addPlayer(e);
         }}>
-        Add
+        +
       </button>
     </form>
   );

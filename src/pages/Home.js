@@ -19,10 +19,15 @@ const Home = ({ players, setPlayers, deletePlayer }) => {
   return (
     <div className={styles.page}>
       <h1 className={styles.title}>MyLord</h1>
-      <PlayerForm players={players} setPlayers={setPlayers} />
-      <PlayerList players={players} deletePlayer={deletePlayer} />
+      <div>
+        <PlayerForm players={players} setPlayers={setPlayers} />
+        <PlayerList players={players} deletePlayer={deletePlayer} />
+      </div>
       {players.length > 2 ? (
-        <Link to='/play' onClick={addPlayersToLocalStorage} className={styles.btnPlay}>
+        <Link
+          to='/play'
+          onClick={addPlayersToLocalStorage}
+          className={styles.btnPlay}>
           Play !
         </Link>
       ) : (

@@ -3,11 +3,6 @@
 @use './playerform';
 @use './playerlist';
 
-.playerform {
-  margin: 1em auto;
-  width: 80%;
-}
-
 @mixin btnPlay {
   padding: 0.2em 0.5em;
   font-size: 1.5em;

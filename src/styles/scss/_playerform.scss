@@ -30,17 +30,17 @@ input {
 
 .btnAdd {
   grid-area: btn;
-  margin-left: 15px;
-  background-color: constants.$color-blue;
-  border: solid 1px white;
-  border-radius: 10px;
-  color: constants.$color-darkwhite;
+  margin-left: 1em;
+  background-color: constants.$color-green;
+  border: solid 1px constants.$color-green;
+  border-radius: 5px;
+  color: white;
   padding: 0.2em 0.4em;
 }
 
 .btnAddDeactivated {
   grid-area: btn;
-  margin-left: 15px;
+  margin-left: 1em;
   background-color: constants.$color-blue;
   border: solid 2px constants.$color-darkwhite;
   border-radius: 10px;

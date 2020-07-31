@@ -54,17 +54,17 @@ input:focus {
 
 .btnAdd {
   grid-area: btn;
-  margin-left: 15px;
-  background-color: #042550;
-  border: solid 1px white;
-  border-radius: 10px;
-  color: #b4b4b4;
+  margin-left: 1em;
+  background-color: #43970b;
+  border: solid 1px #43970b;
+  border-radius: 5px;
+  color: white;
   padding: 0.2em 0.4em;
 }
 
 .btnAddDeactivated {
   grid-area: btn;
-  margin-left: 15px;
+  margin-left: 1em;
   background-color: #042550;
   border: solid 2px #b4b4b4;
   border-radius: 10px;
@@ -73,12 +73,12 @@ input:focus {
   background-color: grey;
 }
 
-@keyframes comeUp {
+@keyframes appear {
   from {
-    bottom: -1000px;
+    right: 1000px;
   }
   to {
-    bottom: 0;
+    right: 0;
   }
 }
 @keyframes deleteItem {
@@ -90,7 +90,8 @@ input:focus {
   }
 }
 .container {
-  width: 80%;
+  width: 100%;
+  margin-top: 1em;
   text-align: center;
 }
 
@@ -112,7 +113,7 @@ li {
   padding: 0.5em 2em;
   text-align: left;
   border-radius: 5px;
-  animation: comeUp 1.2s ease-out;
+  animation: appear 1.2s ease-out;
 }
 
 .btnDel {
@@ -129,11 +130,6 @@ li {
 
 .deletedItem {
   animation: deleteItem 1s ease-in;
-}
-
-.playerform {
-  margin: 1em auto;
-  width: 80%;
 }
 
 .btnPlay {
